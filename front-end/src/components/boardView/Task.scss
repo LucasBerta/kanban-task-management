@@ -1,0 +1,164 @@
+@import "../../core/style/mixins.scss";
+@import "../../core/style/variables.scss";
+@import "../../core/style/typography.scss";
+
+$taskGap: 2rem;
+
+.task {
+  width: 100%;
+  padding: $taskGap;
+  margin-top: $taskGap;
+  border-radius: 0.8rem;
+  background-color: var(--background-color-secondary);
+  cursor: pointer;
+
+  @include shadowLight;
+  @include transition;
+
+  &:hover {
+    @include shadowMedium;
+
+    .task-title {
+      color: $primary;
+    }
+  }
+
+  .task-title {
+    color: var(--background-color-secondary-opposite);
+    @include transition;
+  }
+
+  .subtask-count {
+    @extend .body-m;
+    display: inline-block;
+    color: $mediumGrey;
+    margin-top: 2rem;
+  }
+}
+
+.task-modal-header {
+  @include flex(space-between);
+  width: 100%;
+
+  .task-modal-title {
+    color: var(--background-color-secondary-opposite);
+  }
+
+  .task-modal-options {
+    margin-right: calc(#{$taskGap * -1});
+
+    svg {
+      font-size: $fontHeadingXl;
+    }
+  }
+}
+
+.task-modal-body {
+  @include flex(flex-start, flex-start, column);
+  width: 100%;
+  color: $mediumGrey;
+
+  .task-modal-description {
+    margin-top: $taskGap;
+  }
+
+  .task-modal-subtasks-container {
+    width: 100%;
+    margin-top: $taskGap;
+
+    .task-modal-subtasks-count {
+      color: var(--background-color-secondary-opposite);
+    }
+
+    .task-modal-subtask {
+      $subtaskGap: calc($taskGap * 0.75);
+
+      @include flex(flex-start);
+      width: 100%;
+      margin-top: calc($taskGap / 2);
+      background-color: var(--background-color);
+      border-radius: 5px;
+      padding-right: $subtaskGap;
+
+      &-completed-checkbox {
+        color: $mediumGrey;
+        padding: $subtaskGap;
+
+        &.Mui-checked {
+          color: $primary;
+        }
+
+        svg {
+          font-size: $fontHeadingXl;
+        }
+      }
+
+      &.completed {
+        .task-modal-subtask-title {
+          color: $mediumGrey;
+          text-decoration: line-through;
+        }
+      }
+
+      &-title {
+        @extend h5;
+        color: var(--background-color-secondary-opposite);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .task-modal-status-container {
+    width: 100%;
+    margin-top: $taskGap;
+
+    h5 {
+      color: var(--background-color-secondary-opposite);
+    }
+
+    .task-modal-status-form-control {
+      margin-top: $taskGap;
+
+      .task-modal-status-select {
+        .MuiSelect-select {
+          @extend .body-l;
+          color: var(--background-color-secondary-opposite);
+        }
+
+        svg {
+          color: $primary;
+        }
+
+        fieldset {
+          border-color: var(--lines-color);
+        }
+      }
+    }
+  }
+}
+
+.MuiPopover-root .MuiPaper-root {
+  background-color: var(--background-color);
+
+  ul li {
+    @extend .body-l;
+    color: var(--background-color-secondary-opposite);
+
+    &:hover {
+      background-color: $primaryHoverLowOpacity;
+    }
+
+    &.Mui-selected {
+      background-color: $primary;
+      color: $white;
+    }
+  }
+}
+
+.menu[for="task-view-modal-options"] .menu-option {
+  color: $mediumGrey;
+
+  &:last-child {
+    color: $accent;
+  }
+}

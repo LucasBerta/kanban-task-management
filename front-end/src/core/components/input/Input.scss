@@ -1,0 +1,51 @@
+@import "../../style/mixins.scss";
+@import "../../style/typography.scss";
+
+.app-input-label {
+  @extend .body-m;
+  color: var(--background-color-secondary-opposite);
+
+  + .app-input {
+    margin-top: 1rem;
+  }
+}
+
+.app-input-wrapper {
+  @include flex(flex-start, flex-start, column);
+
+  > * {
+    margin-top: 1.5rem;
+  }
+}
+
+.app-input-container {
+  @include flex(flex-start, center, row);
+}
+
+.app-input {
+  background-color: inherit;
+  border: 1px solid var(--lines-color);
+  color: var(--background-color-secondary-opposite);
+  padding: 1rem;
+  border-radius: 5px;
+  @extend .body-l;
+
+  &-full-width {
+    &,
+    .app-input-container,
+    input {
+      width: 100%;
+    }
+  }
+
+  &::placeholder {
+    color: var(--lines-color);
+  }
+
+  &,
+  &:focus,
+  &:active,
+  &:visited {
+    outline: none;
+  }
+}

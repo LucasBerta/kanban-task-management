@@ -1,0 +1,5 @@
+/node_modules
+yarn.lock
+.env
+src/core/data.json
+dist/src/core/data.json

@@ -1,0 +1,265 @@
+@use "../../App.scss";
+@import "../../core/style/mixins.scss";
+@import "../../core/style/variables.scss";
+@import "../../core/style/typography.scss";
+
+$verticalPadding: 2rem;
+$horizontalPadding: 3.2rem;
+$sidenavWidth: 25vw;
+
+.sidenav {
+  $listItemBorderRadius: 0 50px 50px 0;
+
+  grid-area: sidenav;
+  padding-bottom: $verticalPadding;
+
+  background-color: var(--background-color-secondary);
+
+  @include flex(flex-start, center, column);
+  @include transition;
+
+  &.open {
+    width: $sidenavWidth;
+    border-right: 1px solid var(--lines-color);
+    @include animation(openSidebar, 0.3s, ease-out);
+  }
+
+  @keyframes openSidebar {
+    0% {
+      width: 0;
+      transform: translateX(calc(#{$sidenavWidth * -1}));
+    }
+    50% {
+      width: $sidenavWidth;
+      transform: translateX(calc(#{$sidenavWidth * -1}));
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  &.closed {
+    width: 0;
+    transform: translateX(-100%);
+    overflow-x: hidden;
+    @include animation(closeSidebar, 0.3s, ease-out);
+    background-color: transparent;
+
+    .sidenav-content {
+      opacity: 0;
+    }
+  }
+
+  @keyframes closeSidebar {
+    0% {
+      width: $sidenavWidth;
+      transform: translateX(0);
+    }
+    50% {
+      width: $sidenavWidth;
+      transform: translateX(calc(#{$sidenavWidth * -1}));
+    }
+    100% {
+      width: 0;
+    }
+  }
+
+  &-content {
+    @include flex(space-between, unset, column);
+    width: 100%;
+    height: 100%;
+    flex: 1;
+
+    @include transition(opacity, 0.1s);
+
+    .boards-container {
+      flex: 1;
+      overflow-y: auto;
+
+      h4 {
+        color: $mediumGrey;
+        text-transform: uppercase;
+        margin: $verticalPadding $horizontalPadding;
+      }
+
+      .boards {
+        padding: 0;
+        list-style-type: none;
+        padding-right: $horizontalPadding;
+        @extend .heading-m;
+
+        .board {
+          @include flex(flex-start);
+          padding: $verticalPadding $horizontalPadding;
+          border-radius: $listItemBorderRadius;
+          cursor: pointer;
+
+          background-position: right;
+          @include transition(background);
+
+          &:not(.selected):not(:hover) {
+            color: $mediumGrey;
+          }
+
+          &-icon {
+            @include iconM;
+          }
+
+          span {
+            margin-left: $horizontalPadding;
+          }
+
+          &.selected,
+          &:hover {
+            background-position: left;
+          }
+        }
+      }
+
+      .new-board {
+        @extend .board;
+
+        > * {
+          color: $primary;
+        }
+      }
+    }
+
+    .actions {
+      position: relative;
+
+      .theme-switcher-container {
+        padding: $verticalPadding $horizontalPadding;
+      }
+
+      .theme-switcher {
+        @include flex;
+        width: 100%;
+        border-radius: 0.5rem;
+        background-color: var(--background-color);
+        @include transition(background);
+
+        svg {
+          @include iconM;
+          color: $mediumGrey;
+          margin: $verticalPadding $horizontalPadding;
+        }
+      }
+      .toggle-sidebar-container {
+        padding-right: $horizontalPadding;
+
+        .toggle-sidebar {
+          padding: $verticalPadding $horizontalPadding;
+
+          @include flex(flex-start);
+          border-radius: $listItemBorderRadius;
+          cursor: pointer;
+          @include transition;
+
+          .hide-sidebar-icon {
+            @include iconM;
+          }
+
+          span {
+            @extend .heading-m;
+            margin-left: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.sidenav.closed + .show-sidebar-icon {
+  transform: translateX(0);
+}
+
+.show-sidebar-icon {
+  @include flex;
+  position: fixed;
+  padding: $verticalPadding $horizontalPadding;
+  border-radius: 0 50px 50px 0;
+  bottom: $verticalPadding;
+  background-color: $primary;
+  z-index: 1000;
+  cursor: pointer;
+  transform: translateX(-100%);
+  @include transition;
+
+  &:hover {
+    background-color: $primaryHover;
+  }
+
+  svg {
+    color: $white;
+    @include iconM;
+  }
+}
+
+.app {
+  &.light-theme {
+    .board {
+      &.selected {
+        color: $white;
+        background: linear-gradient(to right, $primary 50%, transparent 50%);
+        background-size: 200% 100%;
+      }
+
+      &:hover:not(.selected) {
+        background: linear-gradient(to right, $primaryHoverLowOpacity 50%, transparent 50%);
+        background-size: 200% 100%;
+        color: $primary;
+      }
+    }
+    .toggle-sidebar {
+      background-position: right;
+
+      * {
+        color: $mediumGrey;
+      }
+
+      &:hover {
+        background: linear-gradient(to right, $primaryHoverLowOpacity 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: left;
+
+        * {
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  &.dark-theme {
+    .board {
+      &.selected {
+        color: $white;
+        background: linear-gradient(to right, $primary 50%, transparent 50%);
+        background-size: 200% 100%;
+      }
+
+      &:hover:not(.selected) {
+        color: $primary;
+        background: linear-gradient(to right, $white 50%, transparent 50%);
+        background-size: 200% 100%;
+      }
+    }
+    .toggle-sidebar {
+      background-position: right;
+
+      * {
+        color: $mediumGrey;
+      }
+
+      &:hover {
+        background: linear-gradient(to right, $white 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: left;
+
+        * {
+          color: $primary;
+        }
+      }
+    }
+  }
+}

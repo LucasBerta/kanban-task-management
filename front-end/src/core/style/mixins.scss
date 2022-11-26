@@ -1,0 +1,27 @@
+@mixin flex($justify: center, $align: center, $direction: row) {
+  display: flex;
+  align-items: $align;
+  flex-direction: $direction;
+  justify-content: $justify;
+}
+
+@mixin transition($property: all, $duration: 0.2s, $timing: ease-in-out, $delay: 0s) {
+  transition: $property $duration $timing $delay;
+}
+
+@mixin animation($name, $duration: 0.2s, $timing: ease-in-out, $delay: 0s) {
+  animation: $name $duration $timing $delay;
+}
+
+@mixin iconM {
+  width: 2rem;
+  height: 2rem;
+}
+
+@mixin shadowLight {
+  box-shadow: 0rem 0.2rem 0.6rem -0.6rem #000;
+}
+
+@mixin shadowMedium {
+  box-shadow: 0rem 0.3rem 0.7rem -0.5rem #000;
+}

@@ -1,0 +1,27 @@
+@import "../../style/mixins.scss";
+@import "../../style/variables.scss";
+@import "../../style/typography.scss";
+
+.app-snackbar {
+  > div {
+    min-width: 28rem;
+    max-width: 35rem;
+  }
+
+  div {
+    @include flex();
+  }
+
+  .MuiAlert-message {
+    @extend .body-l;
+    font-size: 1.6rem;
+  }
+
+  .MuiAlert-action {
+    padding-top: 0;
+  }
+
+  svg {
+    font-size: $fontHeadingL;
+  }
+}

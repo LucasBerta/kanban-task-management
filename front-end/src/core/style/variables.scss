@@ -1,0 +1,23 @@
+/* Color styles */
+$black: rgba(0, 1, 18, 1);
+$veryDarkGrey-DarkBG: rgba(32, 33, 44, 1);
+$darkGrey: rgba(43, 44, 55, 1);
+$linesDark: rgba(62, 63, 78, 1);
+$mediumGrey: rgba(130, 143, 163, 1);
+$linesLight: rgba(228, 235, 250, 1);
+$lightGrey-LightBG: rgba(244, 247, 253, 1);
+$white: rgba(255, 255, 255, 1);
+$secondary: $white;
+$primary: rgba(99, 95, 199, 1);
+$primaryHover: rgba(168, 164, 255, 1);
+$primaryHoverLowOpacity: rgba($primary, 0.1);
+$accent: rgba(234, 85, 85, 1);
+$accentHover: rgba(255, 152, 152, 1);
+
+/* Text-size styles */
+$fontHeadingXl: 2.4rem;
+$fontHeadingL: 1.8rem;
+$fontHeadingM: 1.5rem;
+$fontHeadingS: 1.2rem;
+$fontBodyL: 1.3rem;
+$fontBodyM: 1.2rem;

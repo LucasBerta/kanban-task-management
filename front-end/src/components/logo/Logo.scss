@@ -1,0 +1,16 @@
+.app {
+  &.light-theme .logo {
+    background-image: url(../../assets/icons/logo-dark.svg);
+  }
+
+  &.dark-theme .logo {
+    background-image: url(../../assets/icons/logo-light.svg);
+  }
+
+  .logo {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}

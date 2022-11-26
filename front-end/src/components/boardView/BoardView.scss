@@ -1,0 +1,80 @@
+@use "./Task.scss";
+
+@import "../../core/style/mixins.scss";
+@import "../../core/style/variables.scss";
+@import "../../core/style/typography.scss";
+
+$columnGap: 3rem;
+
+.board-view {
+  @include flex(flex-start, flex-start);
+  grid-area: board;
+  width: 100%;
+  height: 100%;
+  padding: $columnGap;
+
+  overflow: auto;
+  background-color: var(--background-color);
+  @include transition;
+
+  &.empty-board {
+    @include flex();
+
+    .empty-board-content {
+      @include flex($direction: column);
+
+      h2 {
+        color: $mediumGrey;
+      }
+    }
+  }
+}
+
+.board-column {
+  width: 28rem;
+
+  &:not(:last-child) {
+    margin-right: $columnGap;
+  }
+
+  h4 {
+    color: $mediumGrey;
+  }
+
+  .column-add-new-task {
+    @extend .task;
+    color: $mediumGrey;
+    background-color: initial;
+    box-shadow: none;
+
+    &:hover {
+      // To override background color with same color as task card
+      @extend .task;
+      @include shadowMedium;
+    }
+
+    &:active {
+      @include shadowLight;
+    }
+  }
+}
+
+.new-column {
+  @include flex();
+  @extend .task;
+  width: unset;
+  height: 100%;
+  padding: 5rem;
+  margin-top: 3.5rem;
+
+  &:hover {
+    h1 {
+      color: $primary;
+    }
+  }
+
+  h1 {
+    color: $mediumGrey;
+    @include transition;
+  }
+}

@@ -1,0 +1,65 @@
+@import "../../style/mixins.scss";
+@import "../../style/typography.scss";
+
+.menu-container {
+  z-index: 1000;
+}
+
+.menu {
+  position: absolute;
+  width: 20rem;
+  margin-top: 1rem;
+  opacity: 0;
+  transform: scale(0);
+  background-color: var(--background-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  transform: translateX(-40%) translateY(-25%);
+  z-index: -1;
+  @include transition($timing: ease-out);
+  @include shadowMedium;
+
+  &.open {
+    transform: translateX(-40%) translateY(0%) scale(1);
+    z-index: 1000;
+    @include animation(fadeIn);
+    animation-fill-mode: forwards;
+    @include shadowLight;
+  }
+
+  .menu-options {
+    padding: 0;
+    list-style: none;
+
+    .menu-option {
+      @extend .body-l;
+      color: var(--background-color-secondary-opposite);
+      padding: 1.5rem;
+      cursor: pointer;
+      @include transition(background-color);
+
+      &:hover:not(:active) {
+        background-color: var(--lines-color);
+      }
+    }
+  }
+}
+
+.menu.open + .menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 999;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

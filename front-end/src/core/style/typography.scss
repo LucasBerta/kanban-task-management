@@ -1,0 +1,47 @@
+@use "./variables.scss";
+
+.heading-xl,
+h1 {
+  font-size: variables.$fontHeadingXl;
+  font-weight: 700;
+  line-height: 3.02rem;
+}
+
+.heading-l,
+h2 {
+  font-size: variables.$fontHeadingL;
+  font-weight: 700;
+  line-height: 2.3rem;
+}
+
+.heading-m,
+h3 {
+  font-size: variables.$fontHeadingM;
+  font-weight: 700;
+  line-height: 1.9rem;
+}
+
+.heading-s,
+h4 {
+  font-size: variables.$fontHeadingS;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: 0.24rem;
+}
+
+h5 {
+  font-size: variables.$fontHeadingS;
+  font-weight: 700;
+}
+
+.body-l {
+  font-size: variables.$fontBodyL;
+  font-weight: 500;
+  line-height: 2.3rem;
+}
+
+.body-m {
+  font-size: variables.$fontBodyM;
+  font-weight: 700;
+  line-height: 1.5rem;
+}

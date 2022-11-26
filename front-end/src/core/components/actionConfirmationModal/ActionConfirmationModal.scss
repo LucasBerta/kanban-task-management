@@ -1,0 +1,29 @@
+@import "../../style/mixins.scss";
+@import "../../style/variables.scss";
+@import "../../style/typography.scss";
+
+.action-confirmation-modal {
+  .modal-container {
+    width: 48rem;
+  }
+
+  &-title {
+    color: $accent;
+  }
+
+  &-description {
+    @extend .body-l;
+    color: $mediumGrey;
+    margin-top: 2rem;
+  }
+
+  .action-buttons-container {
+    @include flex();
+    margin-top: 2rem;
+    width: 100%;
+
+    button:not(:first-child) {
+      margin-left: 1rem;
+    }
+  }
+}

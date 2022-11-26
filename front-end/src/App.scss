@@ -1,0 +1,50 @@
+@import "./core/style/mixins.scss";
+@import "./core/style/variables.scss";
+
+$topbarHeight: 9.7rem;
+
+::-webkit-scrollbar {
+  width: 1.6rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--background-color-secondary);
+  @include transition;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: var(--background-color);
+  border: 0.2rem solid var(--background-color-secondary);
+  @include transition;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  overflow: hidden;
+  background-color: var(--background-color);
+  grid-template-columns: min-content repeat(3, 1fr);
+  grid-template-rows: $topbarHeight calc(100vh - #{$topbarHeight});
+  grid-template-areas:
+    "topbar   topbar  topbar  topbar"
+    "sidenav  board   board   board ";
+}
+
+html {
+  &,
+  &[theme="light"] {
+    --lines-color: #{$linesLight};
+    --background-color: #{$lightGrey-LightBG};
+    --background-color-secondary: #{$white};
+    --background-color-secondary-opposite: #{$darkGrey};
+  }
+
+  &[theme="dark"] {
+    --lines-color: #{$linesDark};
+    --background-color: #{$veryDarkGrey-DarkBG};
+    --background-color-secondary: #{$darkGrey};
+    --background-color-secondary-opposite: #{$white};
+  }
+}

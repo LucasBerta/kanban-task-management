@@ -1,0 +1,84 @@
+@import "../../../core/style/mixins.scss";
+@import "../../../core/style/variables.scss";
+@import "../../../core/style/typography.scss";
+
+.app-button {
+  @extend .heading-m;
+  @include flex;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 1rem 1.5rem;
+  @include transition;
+
+  &,
+  &:focus,
+  &:active,
+  &:hover {
+    outline: none;
+    border: none;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: context-menu;
+  }
+
+  &-full-width {
+    width: 100%;
+  }
+
+  &.variant-contained {
+    &.theme-primary,
+    &.theme-primary:hover {
+      color: $white;
+      background-color: $primary;
+    }
+  }
+
+  &.variant-icon {
+    border-radius: 50%;
+    padding: 1.5rem;
+  }
+
+  &.app-button-rounded {
+    border-radius: 50px;
+    padding: 1.3rem 1.8rem;
+  }
+
+  &.theme-primary {
+    color: $primary;
+
+    &:hover {
+      background-color: $primaryHoverLowOpacity;
+    }
+  }
+
+  &.theme-secondary {
+    color: $mediumGrey;
+
+    &:hover {
+      color: var(--background-color-secondary-opposite);
+      background-color: var(--lines-color);
+    }
+
+    &:active {
+      background-color: var(--background-color-secondary);
+    }
+  }
+
+  &.theme-accent {
+    background-color: $accent;
+    color: $white;
+  }
+}
+
+html[theme="light"] .app-button.theme-light {
+  color: $primary;
+  background-color: $primaryHoverLowOpacity;
+}
+
+html[theme="dark"] .app-button.theme-light {
+  color: $primary;
+  background-color: $white;
+}

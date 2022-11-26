@@ -1,0 +1,43 @@
+@use "../sidenav/Sidenav.scss";
+@import "../../core/style/mixins.scss";
+@import "../../core/style/variables.scss";
+
+.topbar {
+  grid-area: topbar;
+  background-color: var(--background-color-secondary);
+  @include flex(flex-start);
+  @include transition;
+
+  &.sidebar-closed {
+    .logo-container {
+      border-bottom: 1px solid var(--lines-color);
+    }
+  }
+
+  .logo-container {
+    width: Sidenav.$sidenavWidth;
+    height: 100%;
+    padding: Sidenav.$verticalPadding Sidenav.$horizontalPadding;
+    border-right: 1px solid var(--lines-color);
+    border-bottom: 1px solid transparent;
+    @include transition;
+  }
+
+  .topbar-content {
+    @include flex(space-between);
+    flex: 1;
+    height: 100%;
+    padding: Sidenav.$verticalPadding Sidenav.$horizontalPadding;
+    border-bottom: 1px solid var(--lines-color);
+    @include transition;
+
+    .topbar-selected-board {
+      color: var(--background-color-secondary-opposite);
+      @include transition;
+    }
+
+    .topbar-add-new-task {
+      margin-left: 2rem;
+    }
+  }
+}
