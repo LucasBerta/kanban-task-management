@@ -1,15 +1,21 @@
 import * as ReactDOM from 'react-dom';
 import './Menu.scss';
 
-function Menu({ anchor = '', open, onClose = () => {}, options = { label: '', onSelect: () => {} } }) {
+function Menu({ anchor = '', position = '', open, onClose = () => {}, options = { label: '', onSelect: () => {} } }) {
   const anchorStyle = document.getElementById(anchor)?.getBoundingClientRect();
+
+  function getTranslateByPosition() {
+    if (position === 'left') return `translateX(-90%)`;
+    if (position === 'right') return `translateX(10%)`;
+    return `translateX(-40%)`;
+  }
 
   if (!!anchor && !!anchorStyle) {
     const style = {
       position: 'fixed',
       top: anchorStyle.y,
       left: anchorStyle.x,
-      transform: `translateY(${anchorStyle.height - 10}px) translateX(-50%)`,
+      transform: `translateY(${anchorStyle.height - 10}px) ${getTranslateByPosition()}`,
     };
 
     return ReactDOM.createPortal(

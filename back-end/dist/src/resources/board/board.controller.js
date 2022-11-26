@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBoard = exports.getAllBoards = void 0;
+exports.createBoard = exports.deleteBoard = exports.getAllBoards = void 0;
 const board_db_1 = __importDefault(require("./board.db"));
 const validators_1 = require("./../../core/validators");
 const common_1 = require("../../core/common");
@@ -22,6 +22,12 @@ function getAllBoards() {
     });
 }
 exports.getAllBoards = getAllBoards;
+function deleteBoard(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield board_db_1.default.deleteBoard(id);
+    });
+}
+exports.deleteBoard = deleteBoard;
 function createBoard(board) {
     return __awaiter(this, void 0, void 0, function* () {
         if ((0, validators_1.isEmpty)(board.name)) {

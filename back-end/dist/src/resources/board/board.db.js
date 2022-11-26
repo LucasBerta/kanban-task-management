@@ -25,6 +25,11 @@ class BoardDB {
             return yield board_model_1.default.findOne(filter);
         });
     }
+    static deleteBoard(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield board_model_1.default.findOneAndDelete({ _id: id });
+        });
+    }
     static createBoard(_board) {
         return __awaiter(this, void 0, void 0, function* () {
             const board = new board_model_1.default(_board);

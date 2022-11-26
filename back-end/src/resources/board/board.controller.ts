@@ -7,6 +7,10 @@ export async function getAllBoards() {
   return await BoardDB.getAllBoards();
 }
 
+export async function deleteBoard(id: String) {
+  return await BoardDB.deleteBoard(id);
+}
+
 export async function createBoard(board: IBoard) {
   if (isEmpty(board.name)) {
     throwNewError(errorNames.VALIDATION, 'Board name is required!');

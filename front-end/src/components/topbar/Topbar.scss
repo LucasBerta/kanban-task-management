@@ -2,6 +2,10 @@
 @import "../../core/style/mixins.scss";
 @import "../../core/style/variables.scss";
 
+.topbar-action-buttons {
+  @include flex;
+}
+
 .topbar {
   grid-area: topbar;
   background-color: var(--background-color-secondary);
@@ -39,5 +43,21 @@
     .topbar-add-new-task {
       margin-left: 2rem;
     }
+
+    .topbar-board-actions {
+      margin-left: 1.5rem;
+
+      svg {
+        font-size: $fontHeadingXl;
+      }
+    }
+  }
+}
+
+.menu[for="topbar-board-actions"] .menu-option {
+  color: $mediumGrey;
+
+  &:last-child {
+    color: $accent;
   }
 }

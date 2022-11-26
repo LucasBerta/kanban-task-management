@@ -1,6 +1,5 @@
 import IBoard from './board.interface';
 import BoardModel from './board.model';
-import data from '../../core/data.json';
 
 export default class BoardDB {
   public static async getAllBoards() {
@@ -10,6 +9,10 @@ export default class BoardDB {
 
   public static async getBoard(filter: Object) {
     return await BoardModel.findOne(filter);
+  }
+
+  public static async deleteBoard(id: String) {
+    return await BoardModel.findOneAndDelete({ _id: id });
   }
 
   public static async createBoard(_board: IBoard) {

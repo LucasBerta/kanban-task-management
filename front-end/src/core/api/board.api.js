@@ -26,4 +26,8 @@ export default class BoardApi {
   static async createBoard(board) {
     return api.post(apiEndpoint.BOARDS, board);
   }
+
+  static async deleteBoard(id) {
+    return api.delete(apiEndpoint.BOARDS_ID.replace(':id', id));
+  }
 }
