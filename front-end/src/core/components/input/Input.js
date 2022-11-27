@@ -10,13 +10,10 @@ function Input({
   label = '',
   fullWidth = false,
   iconComponent,
+  autoFocus,
 }) {
   return (
-    <div
-      className={`app-input-wrapper ${
-        fullWidth ? 'app-input-full-width' : ''
-      } ${classNameContainer}`.trim()}
-    >
+    <div className={`app-input-wrapper ${fullWidth ? 'app-input-full-width' : ''} ${classNameContainer}`.trim()}>
       {label && <label className='app-input-label'>{label}</label>}
       <div className='app-input-container'>
         <input
@@ -25,6 +22,7 @@ function Input({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          autoFocus={autoFocus}
         />
         {iconComponent}
       </div>

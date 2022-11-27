@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { connect } from 'react-redux';
-import Button from '../../core/components/button/Button';
+
 import './BoardView.scss';
+
 import Task from './Task';
+import Button from '../../core/components/button/Button';
+import CreateEditBoardModal from './CreateEditBoardModal';
 
 // Components
 export function EmptyBoardView() {
@@ -32,6 +36,7 @@ function BoardColumn({ board, column }) {
 
 function BoardView({ boardState }) {
   const { selectedBoard } = boardState;
+  const [createEditBoardModalOpen, setCreateEditBoardModalOpen] = useState(false);
 
   function isSelectedBoardEmpty() {
     return !selectedBoard?.columns || selectedBoard.columns?.length === 0;
@@ -42,7 +47,14 @@ function BoardView({ boardState }) {
       {isSelectedBoardEmpty() && (
         <div className='empty-board-content'>
           <h2>This board is empty. Create a new column to get started.</h2>
-          {/* TODO -> BUTTON TO CREATE COLUMN */}
+          <Button
+            className='board-view-add-new-column'
+            variant='contained'
+            rounded
+            onClick={() => setCreateEditBoardModalOpen(true)}
+          >
+            + Add New Column
+          </Button>
         </div>
       )}
       {!isSelectedBoardEmpty() && (
@@ -50,11 +62,16 @@ function BoardView({ boardState }) {
           {selectedBoard.columns.map(column => (
             <BoardColumn key={column.name} board={boardState.selectedBoard} column={column} />
           ))}
-          <div className='new-column'>
+          <div className='new-column' onClick={() => setCreateEditBoardModalOpen(true)}>
             <h1>+ New Column</h1>
           </div>
         </>
       )}
+      <CreateEditBoardModal
+        open={createEditBoardModalOpen}
+        board={boardState.selectedBoard}
+        onClose={() => setCreateEditBoardModalOpen(false)}
+      />
     </div>
   );
 }

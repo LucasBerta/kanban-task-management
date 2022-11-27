@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { sendErrorResponse } from '../../core/common';
-import { createBoard, deleteBoard, getAllBoards } from './board.controller';
+import { createBoard, deleteBoard, getAllBoards, updateBoard } from './board.controller';
 import IBoard from './board.interface';
 
 const board = express.Router();
@@ -28,6 +28,17 @@ board.post('/', async (req: Request, res: Response) => {
     delete req.body._id;
     const board: IBoard = req.body;
     const newBoard = await createBoard(board);
+    res.status(201).json(newBoard);
+  } catch (e: any) {
+    sendErrorResponse(res, e);
+  }
+});
+
+board.put('/:id', async (req: Request, res: Response) => {
+  try {
+    delete req.body._id;
+    const board: IBoard = req.body;
+    const newBoard = await updateBoard(req.params.id, board);
     res.status(201).json(newBoard);
   } catch (e: any) {
     sendErrorResponse(res, e);

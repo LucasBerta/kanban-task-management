@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBoard = exports.deleteBoard = exports.getAllBoards = void 0;
+exports.updateBoard = exports.createBoard = exports.deleteBoard = exports.getAllBoards = void 0;
 const board_db_1 = __importDefault(require("./board.db"));
 const validators_1 = require("./../../core/validators");
 const common_1 = require("../../core/common");
@@ -30,16 +30,7 @@ function deleteBoard(id) {
 exports.deleteBoard = deleteBoard;
 function createBoard(board) {
     return __awaiter(this, void 0, void 0, function* () {
-        if ((0, validators_1.isEmpty)(board.name)) {
-            (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, 'Board name is required!');
-        }
-        if (isThereAnyEmptyColumn(board)) {
-            (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, 'Column name is required!');
-        }
-        if (getDuplicatedColumns(board).length > 0) {
-            const duplicatedColumns = getDuplicatedColumns(board);
-            (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, `The column${duplicatedColumns.length > 1 ? 's' : ''} "${duplicatedColumns.join(', ')}" ${duplicatedColumns.length > 1 ? 'are' : 'is'} duplicated!`);
-        }
+        validateBoardForm(board);
         const boardFound = yield getDuplicatedBoard(board);
         if (!!boardFound) {
             (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, `There is already a board with the name "${boardFound.name}". Please choose a different one!`);
@@ -48,7 +39,29 @@ function createBoard(board) {
     });
 }
 exports.createBoard = createBoard;
+function updateBoard(id, board) {
+    return __awaiter(this, void 0, void 0, function* () {
+        validateBoardForm(board);
+        const updatedBoard = yield board_db_1.default.updateBoard(id, board);
+        if (!updatedBoard)
+            (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, "The board you're trying to update couldn''t be found!");
+        return updatedBoard;
+    });
+}
+exports.updateBoard = updateBoard;
 // Local validators
+function validateBoardForm(board) {
+    if ((0, validators_1.isEmpty)(board.name)) {
+        (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, 'Board name is required!');
+    }
+    if (isThereAnyEmptyColumn(board)) {
+        (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, 'Column name is required!');
+    }
+    if (getDuplicatedColumns(board).length > 0) {
+        const duplicatedColumns = getDuplicatedColumns(board);
+        (0, common_1.throwNewError)(validators_1.errorNames.VALIDATION, `The column${duplicatedColumns.length > 1 ? 's' : ''} "${duplicatedColumns.join(', ')}" ${duplicatedColumns.length > 1 ? 'are' : 'is'} duplicated!`);
+    }
+}
 function isThereAnyEmptyColumn(board) {
     var _a;
     return !!((_a = board.columns) === null || _a === void 0 ? void 0 : _a.find(column => (0, validators_1.isEmpty)(column.name)));

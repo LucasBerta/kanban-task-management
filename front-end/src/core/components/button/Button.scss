@@ -34,6 +34,11 @@
       color: $white;
       background-color: $primary;
     }
+
+    &.theme-primary:not(:disabled):hover {
+      color: $white;
+      background-color: $primaryHover;
+    }
   }
 
   &.variant-icon {

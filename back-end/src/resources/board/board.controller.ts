@@ -12,6 +12,28 @@ export async function deleteBoard(id: String) {
 }
 
 export async function createBoard(board: IBoard) {
+  validateBoardForm(board);
+
+  const boardFound = await getDuplicatedBoard(board);
+  if (!!boardFound) {
+    throwNewError(
+      errorNames.VALIDATION,
+      `There is already a board with the name "${boardFound.name}". Please choose a different one!`
+    );
+  }
+
+  return await BoardDB.createBoard(board);
+}
+
+export async function updateBoard(id: String, board: IBoard) {
+  validateBoardForm(board);
+  const updatedBoard = await BoardDB.updateBoard(id, board);
+  if (!updatedBoard) throwNewError(errorNames.VALIDATION, "The board you're trying to update couldn''t be found!");
+  return updatedBoard;
+}
+
+// Local validators
+function validateBoardForm(board: IBoard) {
   if (isEmpty(board.name)) {
     throwNewError(errorNames.VALIDATION, 'Board name is required!');
   }
@@ -29,19 +51,8 @@ export async function createBoard(board: IBoard) {
       } duplicated!`
     );
   }
-
-  const boardFound = await getDuplicatedBoard(board);
-  if (!!boardFound) {
-    throwNewError(
-      errorNames.VALIDATION,
-      `There is already a board with the name "${boardFound.name}". Please choose a different one!`
-    );
-  }
-
-  return await BoardDB.createBoard(board);
 }
 
-// Local validators
 function isThereAnyEmptyColumn(board: IBoard) {
   return !!board.columns?.find(column => isEmpty(column.name));
 }

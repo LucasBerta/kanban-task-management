@@ -45,4 +45,15 @@ board.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, common_1.sendErrorResponse)(res, e);
     }
 }));
+board.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        delete req.body._id;
+        const board = req.body;
+        const newBoard = yield (0, board_controller_1.updateBoard)(req.params.id, board);
+        res.status(201).json(newBoard);
+    }
+    catch (e) {
+        (0, common_1.sendErrorResponse)(res, e);
+    }
+}));
 exports.default = board;

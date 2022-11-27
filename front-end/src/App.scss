@@ -14,8 +14,8 @@ $topbarHeight: 9.7rem;
 
 ::-webkit-scrollbar-thumb {
   border-radius: 1rem;
-  background-color: var(--background-color);
-  border: 0.2rem solid var(--background-color-secondary);
+  background-color: var(--lines-color);
+  border: 0.3rem solid var(--background-color-secondary);
   @include transition;
 }
 

@@ -30,10 +30,15 @@ class BoardDB {
             return yield board_model_1.default.findOneAndDelete({ _id: id });
         });
     }
-    static createBoard(_board) {
+    static createBoard(board) {
         return __awaiter(this, void 0, void 0, function* () {
-            const board = new board_model_1.default(_board);
-            return yield board.save();
+            const _board = new board_model_1.default(board);
+            return yield _board.save();
+        });
+    }
+    static updateBoard(id, board) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield board_model_1.default.findOneAndUpdate({ _id: `${id}` }, board, { new: true });
         });
     }
 }

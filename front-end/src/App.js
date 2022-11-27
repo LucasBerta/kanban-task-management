@@ -11,7 +11,7 @@ import { setupTheme } from './action/themeAction';
 import BoardApi from './core/api/board.api';
 import Snackbar from './core/components/snackbar/Snackbar';
 
-function App({ dispatch, theme }) {
+function App({ dispatch, theme, boardState }) {
   const navigate = useNavigate();
   const uriParams = useParams();
   const location = useLocation();
@@ -20,21 +20,24 @@ function App({ dispatch, theme }) {
     setUp();
 
     async function setUp() {
-      const boards = await BoardApi.fetchAllAndUpdateState();
+      const boards = boardState?.boards;
       dispatch(setupTheme());
+
       if (!boards?.length) {
+        await BoardApi.fetchAllAndUpdateState();
         navigate('/');
         return;
       }
+
       const requestedBoard = boards.find(board => board._id === uriParams.boardId);
-      if (!!requestedBoard) {
-        dispatch(setSelectedBoard(requestedBoard));
-      } else {
+      if (!requestedBoard) {
         dispatch(setSelectedBoard(boards[0]));
-        boards[0] && navigate(`/board/${boards[0]._id}`);
+        navigate(`/board/${boards[0]._id}`);
+      } else if (requestedBoard._id !== boardState?.selectedBoard?._id) {
+        dispatch(setSelectedBoard(requestedBoard));
       }
     }
-  }, [location, dispatch, navigate, uriParams]);
+  }, [location, dispatch, navigate, uriParams, boardState]);
 
   return (
     <div className={`app ${theme}-theme`}>
@@ -46,6 +49,6 @@ function App({ dispatch, theme }) {
   );
 }
 
-const mapStateToProps = ({ theme }) => ({ theme });
+const mapStateToProps = ({ theme, board }) => ({ theme, boardState: board });
 
 export default connect(mapStateToProps)(App);

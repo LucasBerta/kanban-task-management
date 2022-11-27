@@ -59,15 +59,14 @@ const TaskModalheader = connect(mapStateToPropsTaskModalHeader)(({ dispatch, boa
           <MoreVertIcon />
         </Button>
         <Menu anchor='task-view-modal-options' open={menuOpen} options={options} onClose={() => setMenuOpen(false)} />
-        {deleteModalOpen && (
-          <ActionConfirmationModal
-            title='Delete this task?'
-            description={`Are you sure you want to delete the ${task.title} board? This action will remove all columns and tasks and cannot be reversed.`}
-            confirmButtonLabel='Delete'
-            onCancel={() => setDeleteModalOpen(false)}
-            onConfirm={deleteTask}
-          />
-        )}
+        <ActionConfirmationModal
+          open={deleteModalOpen}
+          title='Delete this task?'
+          description={`Are you sure you want to delete the ${task.title} board? This action will remove all columns and tasks and cannot be reversed.`}
+          confirmButtonLabel='Delete'
+          onCancel={() => setDeleteModalOpen(false)}
+          onConfirm={deleteTask}
+        />
       </div>
     </div>
   );

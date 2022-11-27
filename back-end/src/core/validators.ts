@@ -9,7 +9,7 @@ export function isEmpty(value: any) {
 }
 
 export function getDuplicatedRecords(arr: String[] | undefined): Array<String> {
-  const caseInsensitiveArr = arr?.map(item => item.toLowerCase());
+  const caseInsensitiveArr = arr?.map(item => item || ''.toLowerCase());
   const duplicates = caseInsensitiveArr?.filter((item, index) => caseInsensitiveArr.indexOf(item) != index);
   return Array.from(new Set(duplicates));
 }

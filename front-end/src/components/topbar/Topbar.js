@@ -8,22 +8,36 @@ import './Topbar.scss';
 import Button from './../../core/components/button/Button';
 import Menu from '../../core/components/menu/Menu';
 import BoardApi from './../../core/api/board.api';
+import CreateEditBoardModal from './../boardView/CreateEditBoardModal';
+import ActionConfirmationModal from './../../core/components/actionConfirmationModal/ActionConfirmationModal';
 
 function Topbar({ sidebarState, boardState }) {
   const navigate = useNavigate();
-  const [boardActionsOpen, SetBoardActionsOpen] = useState(false);
+  const [boardActionsOpen, setBoardActionsOpen] = useState(false);
+  const [editBoardModalOpen, setEditBoardModalOpen] = useState(false);
+  const [deleteBoardModalOpen, setDeleteBoardModalOpen] = useState(false);
 
   const boardActionsOptions = [
-    { label: 'Edit Board', onSelect: () => {} },
+    {
+      label: 'Edit Board',
+      onSelect: () => {
+        setBoardActionsOpen(false);
+        setEditBoardModalOpen(true);
+      },
+    },
     {
       label: 'Delete Board',
-      onSelect: handleDeleteBoard,
+      onSelect: () => {
+        setBoardActionsOpen(false);
+        setDeleteBoardModalOpen(true);
+      },
     },
   ];
 
   function handleDeleteBoard() {
-    BoardApi.deleteBoard(boardState.selectedBoard._id).then(() => {
-      SetBoardActionsOpen(false);
+    BoardApi.deleteBoard(boardState.selectedBoard._id).then(async () => {
+      setDeleteBoardModalOpen(false);
+      await BoardApi.fetchAllAndUpdateState();
       navigate('/');
     });
   }
@@ -50,7 +64,7 @@ function Topbar({ sidebarState, boardState }) {
             theme='secondary'
             variant='icon'
             onClick={() => {
-              SetBoardActionsOpen(true);
+              setBoardActionsOpen(true);
             }}
           >
             <MoreVertIcon />
@@ -60,7 +74,20 @@ function Topbar({ sidebarState, boardState }) {
             position='left'
             open={boardActionsOpen}
             options={boardActionsOptions}
-            onClose={() => SetBoardActionsOpen(false)}
+            onClose={() => setBoardActionsOpen(false)}
+          />
+          <CreateEditBoardModal
+            open={editBoardModalOpen}
+            board={boardState.selectedBoard}
+            onClose={() => setEditBoardModalOpen(false)}
+          />
+          <ActionConfirmationModal
+            open={deleteBoardModalOpen}
+            title='Delete this board?'
+            description='Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.'
+            confirmButtonLabel='Delete'
+            onCancel={() => setDeleteBoardModalOpen(false)}
+            onConfirm={handleDeleteBoard}
           />
         </div>
       </div>

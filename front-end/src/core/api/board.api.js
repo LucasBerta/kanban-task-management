@@ -14,13 +14,7 @@ export default class BoardApi {
   }
 
   static async updateBoard(board) {
-    try {
-      return await api.put(apiEndpoint.BOARDS_ID, board, {
-        params: { id: board._id },
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    return api.put(apiEndpoint.BOARDS_ID.replace(':id', board._id), board);
   }
 
   static async createBoard(board) {

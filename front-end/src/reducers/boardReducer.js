@@ -5,7 +5,7 @@ import {
   ACTION_SET_SELECTED_BOARD,
 } from '../action/boardAction';
 
-export default function themeReducer(state, action) {
+export default function boardReducer(state, action) {
   switch (action.type) {
     case ACTION_SET_SELECTED_BOARD:
       return { ...state, selectedBoard: action.board };

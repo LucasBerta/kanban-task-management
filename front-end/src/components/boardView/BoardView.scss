@@ -25,6 +25,7 @@ $columnGap: 3rem;
 
       h2 {
         color: $mediumGrey;
+        margin-bottom: 3rem;
       }
     }
   }
@@ -32,6 +33,7 @@ $columnGap: 3rem;
 
 .board-column {
   width: 28rem;
+  min-width: 28rem;
 
   &:not(:last-child) {
     margin-right: $columnGap;

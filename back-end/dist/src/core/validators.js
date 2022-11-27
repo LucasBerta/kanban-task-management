@@ -11,7 +11,7 @@ function isEmpty(value) {
 }
 exports.isEmpty = isEmpty;
 function getDuplicatedRecords(arr) {
-    const caseInsensitiveArr = arr === null || arr === void 0 ? void 0 : arr.map(item => item.toLowerCase());
+    const caseInsensitiveArr = arr === null || arr === void 0 ? void 0 : arr.map(item => item || ''.toLowerCase());
     const duplicates = caseInsensitiveArr === null || caseInsensitiveArr === void 0 ? void 0 : caseInsensitiveArr.filter((item, index) => caseInsensitiveArr.indexOf(item) != index);
     return Array.from(new Set(duplicates));
 }

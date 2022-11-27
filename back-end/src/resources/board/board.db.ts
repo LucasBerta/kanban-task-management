@@ -15,8 +15,12 @@ export default class BoardDB {
     return await BoardModel.findOneAndDelete({ _id: id });
   }
 
-  public static async createBoard(_board: IBoard) {
-    const board = new BoardModel(_board);
-    return await board.save();
+  public static async createBoard(board: IBoard) {
+    const _board = new BoardModel(board);
+    return await _board.save();
+  }
+
+  public static async updateBoard(id: String, board: IBoard) {
+    return await BoardModel.findOneAndUpdate({ _id: `${id}` }, board, { new: true });
   }
 }

@@ -12,8 +12,6 @@ import IOSSwitch from '../../core/components/switch/Switch';
 import { switchTheme } from '../../action/themeAction';
 import { switchSidebar } from '../../action/sidebarAction';
 import CreateEditBoardModal from '../boardView/CreateEditBoardModal';
-import BoardApi from './../../core/api/board.api';
-import { setBoards } from '../../action/boardAction';
 
 function Sidenav({ dispatch, themeState, sidebarState, boardState }) {
   const [createBoardModalOpen, setCreateBoardModalOpen] = useState(false);
@@ -30,8 +28,6 @@ function Sidenav({ dispatch, themeState, sidebarState, boardState }) {
 
   async function handleOnCloseCreateEditModal() {
     setCreateBoardModalOpen(false);
-    const boards = await BoardApi.fetchAll();
-    dispatch(setBoards(boards.data));
   }
 
   return (
@@ -41,22 +37,17 @@ function Sidenav({ dispatch, themeState, sidebarState, boardState }) {
           <div className='boards-container'>
             <h4>All boards ({boards.length})</h4>
             <ul className='boards'>
-              {boards.map((board) => (
+              {boards.map(board => (
                 <li
                   key={board._id}
-                  className={`board${
-                    selectedBoard?._id === board._id ? ' selected' : ''
-                  }`}
+                  className={`board${selectedBoard?._id === board._id ? ' selected' : ''}`}
                   onClick={() => onSelectBoard(board)}
                 >
                   <DashboardOutlinedIcon className='board-icon' />
                   <span className='board-name'>{board.name}</span>
                 </li>
               ))}
-              <li
-                className='new-board'
-                onClick={() => setCreateBoardModalOpen(true)}
-              >
+              <li className='new-board' onClick={() => setCreateBoardModalOpen(true)}>
                 <DashboardOutlinedIcon className='board-icon' />
                 <span>+ Create New Board</span>
               </li>
@@ -66,10 +57,7 @@ function Sidenav({ dispatch, themeState, sidebarState, boardState }) {
             <div className='theme-switcher-container'>
               <div className='theme-switcher'>
                 <LightModeIcon />
-                <IOSSwitch
-                  checked={isDarkTheme()}
-                  onChange={() => dispatch(switchTheme())}
-                />
+                <IOSSwitch checked={isDarkTheme()} onChange={() => dispatch(switchTheme())} />
                 <DarkModeIcon />
               </div>
             </div>
@@ -87,9 +75,7 @@ function Sidenav({ dispatch, themeState, sidebarState, boardState }) {
           </div>
         </div>
       </nav>
-      {createBoardModalOpen && (
-        <CreateEditBoardModal onClose={handleOnCloseCreateEditModal} />
-      )}
+      <CreateEditBoardModal open={createBoardModalOpen} onClose={handleOnCloseCreateEditModal} />
       <div
         className='show-sidebar-icon'
         onClick={() => {
