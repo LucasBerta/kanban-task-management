@@ -8,6 +8,13 @@ export default class TaskDB {
     return board;
   }
 
+  public static async createTask(boardId: string, newTask: ITask) {
+    const _newTask = new Task(newTask._id, newTask.title, newTask.description, newTask.status, newTask.subtasks);
+
+    const board = await BoardModel.findOneAndUpdate({ _id: `${boardId}` }, { $push: { tasks: _newTask } }, { new: true });
+    return board?.tasks;
+  }
+
   public static async updateTask(boardId: string, taskId: string, newTask: ITask) {
     const _newTask = new Task(newTask._id, newTask.title, newTask.description, newTask.status, newTask.subtasks);
 

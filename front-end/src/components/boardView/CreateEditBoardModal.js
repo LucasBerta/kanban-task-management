@@ -99,7 +99,7 @@ function CreateEditBoardModal({ dispatch, open, board, onClose = () => {}, class
                 }}
                 iconComponent={
                   <Button
-                    className='form-columns-container-add-column'
+                    className='form-columns-container-delete-column-icon-button'
                     variant='icon'
                     onClick={() => handleOnDeleteColumn(index)}
                   >

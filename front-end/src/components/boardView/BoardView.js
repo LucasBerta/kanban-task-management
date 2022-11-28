@@ -70,6 +70,8 @@ function BoardView({ dispatch, boardState }) {
   }
 
   function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
     const _columns = { ...columns };
     let [reorderedItem] = _columns[result.source.droppableId].tasks.splice(result.source.index, 1);
     reorderedItem = { ...reorderedItem, status: result.destination.droppableId };

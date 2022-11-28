@@ -26,6 +26,15 @@ task.delete(baseUrl + '/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
         (0, common_1.sendErrorResponse)(res, e);
     }
 }));
+task.post(baseUrl, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const board = yield (0, task_controller_1.createTask)(req.params.boardId, req.body);
+        res.send(board);
+    }
+    catch (e) {
+        (0, common_1.sendErrorResponse)(res, e);
+    }
+}));
 task.put(baseUrl + '/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const board = yield (0, task_controller_1.updateTask)(req.params.boardId, req.params.id, req.body);

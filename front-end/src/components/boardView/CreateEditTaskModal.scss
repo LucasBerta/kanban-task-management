@@ -1,0 +1,60 @@
+@import "../../core/style/variables.scss";
+@import "../../core/style/typography.scss";
+
+$taskGap: 2rem;
+
+.create-edit-task-modal {
+  h2 {
+    color: var(--background-color-secondary-opposite);
+  }
+
+  form {
+    width: 100%;
+
+    textarea {
+      @extend .body-l;
+    }
+  }
+
+  .add-new-subtask,
+  .save-subtask {
+    margin-top: $taskGap;
+  }
+
+  .delete-subtask-icon-button {
+    margin-left: 1rem;
+    color: $mediumGrey;
+
+    svg {
+      font-size: $fontHeadingM;
+    }
+  }
+
+  .create-edit-task-modal-status-container {
+    width: 100%;
+    margin-top: $taskGap;
+
+    h5 {
+      color: var(--background-color-secondary-opposite);
+    }
+
+    .task-modal-status-form-control {
+      margin-top: calc($taskGap / 2);
+
+      .task-modal-status-select {
+        .MuiSelect-select {
+          @extend .body-l;
+          color: var(--background-color-secondary-opposite);
+        }
+
+        svg {
+          color: $primary;
+        }
+
+        fieldset {
+          border-color: var(--lines-color);
+        }
+      }
+    }
+  }
+}

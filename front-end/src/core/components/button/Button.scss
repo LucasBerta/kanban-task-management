@@ -81,6 +81,10 @@
 html[theme="light"] .app-button.theme-light {
   color: $primary;
   background-color: $primaryHoverLowOpacity;
+
+  &:hover {
+    background-color: $primaryHoverLight;
+  }
 }
 
 html[theme="dark"] .app-button.theme-light {

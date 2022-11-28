@@ -10,12 +10,14 @@ import Menu from '../../core/components/menu/Menu';
 import BoardApi from './../../core/api/board.api';
 import CreateEditBoardModal from './../boardView/CreateEditBoardModal';
 import ActionConfirmationModal from './../../core/components/actionConfirmationModal/ActionConfirmationModal';
+import CreateEditTaskModal from '../boardView/CreateEditTaskModal';
 
 function Topbar({ sidebarState, boardState }) {
   const navigate = useNavigate();
   const [boardActionsOpen, setBoardActionsOpen] = useState(false);
   const [editBoardModalOpen, setEditBoardModalOpen] = useState(false);
   const [deleteBoardModalOpen, setDeleteBoardModalOpen] = useState(false);
+  const [newTaskModalOpen, setNewTaskModalOpen] = useState(false);
 
   const boardActionsOptions = [
     {
@@ -55,6 +57,7 @@ function Topbar({ sidebarState, boardState }) {
             variant='contained'
             rounded
             disabled={boardState?.selectedBoard?.columns?.length === 0}
+            onClick={() => setNewTaskModalOpen(true)}
           >
             + Add New Task
           </Button>
@@ -76,6 +79,8 @@ function Topbar({ sidebarState, boardState }) {
             options={boardActionsOptions}
             onClose={() => setBoardActionsOpen(false)}
           />
+
+          <CreateEditTaskModal open={newTaskModalOpen} onClose={() => setNewTaskModalOpen(false)} />
           <CreateEditBoardModal
             open={editBoardModalOpen}
             board={boardState.selectedBoard}

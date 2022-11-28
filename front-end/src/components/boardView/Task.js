@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Button from '../../core/components/button/Button';
-import './Task.scss';
-import Menu from '../../core/components/menu/Menu';
 import { Checkbox, FormControl, MenuItem, Select } from '@mui/material';
-import Modal from '../../core/components/modal/Modal';
+
+import './Task.scss';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 import TaskApi from './../../core/api/task.api';
 import appStore from '../../core/store/appStore';
-import { showSnackbar } from '../../action/snackbarAction';
-import { snackbarSeverities } from '../../core/components/snackbar/Snackbar';
 import BoardApi from './../../core/api/board.api';
+import Menu from '../../core/components/menu/Menu';
+import Modal from '../../core/components/modal/Modal';
+import Button from '../../core/components/button/Button';
+import { showSnackbar } from '../../action/snackbarAction';
 import { refreshSelectedBoard } from '../../action/boardAction';
+import { snackbarSeverities } from '../../core/components/snackbar/Snackbar';
 import ActionConfirmationModal from './../../core/components/actionConfirmationModal/ActionConfirmationModal';
 
 // Helpers
@@ -141,9 +143,8 @@ const TaskModalStatus = connect(mapStateToPropsTaskModalStatus)(({ boardState, t
 });
 
 function TaskViewModal({ task, open, onClose }) {
-  if (!open) return;
   return (
-    <Modal onClose={onClose}>
+    <Modal open={open} onClose={onClose}>
       <TaskModalheader task={task} onClose={onClose} />
       <div className='task-modal-body'>
         {task.description && <p className='task-modal-description body-l'>{task.description}</p>}
@@ -154,7 +155,7 @@ function TaskViewModal({ task, open, onClose }) {
   );
 }
 
-function Task({ dispatch, task }) {
+function Task({ dispatch, task, draggableIndex }) {
   const [taskModalOpen, setTaskModalOpen] = useState(false);
 
   async function handleOnCloseModal() {

@@ -1,0 +1,54 @@
+@import "../../style/mixins.scss";
+@import "../../style/typography.scss";
+
+.app-textarea-label {
+  @extend .body-m;
+  color: var(--background-color-secondary-opposite);
+
+  + .app-textarea {
+    margin-top: 1rem;
+  }
+}
+
+.app-textarea-wrapper {
+  @include flex(flex-start, flex-start, column);
+
+  > * {
+    margin-top: 1.5rem;
+  }
+}
+
+.app-textarea-container {
+  @include flex(flex-start, center, row);
+}
+
+.app-textarea {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: inherit;
+  border: 1px solid var(--lines-color);
+  color: var(--background-color-secondary-opposite);
+  padding: 1rem;
+  border-radius: 5px;
+  resize: none;
+  @extend .body-l;
+
+  &-full-width {
+    &,
+    .app-textarea-container,
+    textarea {
+      width: 100%;
+    }
+  }
+
+  &::placeholder {
+    color: var(--lines-color);
+  }
+
+  &,
+  &:focus,
+  &:active,
+  &:visited {
+    outline: none;
+  }
+}

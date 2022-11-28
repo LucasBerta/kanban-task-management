@@ -5,6 +5,10 @@ export default class TaskApi {
     return api.delete(apiEndpoint.TASKS_ID.replace(':boardId', board._id).replace(':id', task._id));
   }
 
+  static async createTask(board, task) {
+    return api.post(apiEndpoint.TASKS.replace(':boardId', board._id), task);
+  }
+
   static async updateTask(board, task) {
     return api.put(apiEndpoint.TASKS_ID.replace(':boardId', board._id).replace(':id', task._id), task);
   }

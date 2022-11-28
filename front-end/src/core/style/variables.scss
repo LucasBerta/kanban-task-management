@@ -10,6 +10,7 @@ $white: rgba(255, 255, 255, 1);
 $secondary: $white;
 $primary: rgba(99, 95, 199, 1);
 $primaryHover: rgba(168, 164, 255, 1);
+$primaryHoverLight: rgba($primary, 0.25);
 $primaryHoverLowOpacity: rgba($primary, 0.1);
 $accent: rgba(234, 85, 85, 1);
 $accentHover: rgba(255, 152, 152, 1);

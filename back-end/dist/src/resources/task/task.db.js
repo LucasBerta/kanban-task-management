@@ -21,6 +21,13 @@ class TaskDB {
             return board;
         });
     }
+    static createTask(boardId, newTask) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const _newTask = new task_model_1.Task(newTask._id, newTask.title, newTask.description, newTask.status, newTask.subtasks);
+            const board = yield board_model_1.default.findOneAndUpdate({ _id: `${boardId}` }, { $push: { tasks: _newTask } }, { new: true });
+            return board === null || board === void 0 ? void 0 : board.tasks;
+        });
+    }
     static updateTask(boardId, taskId, newTask) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
