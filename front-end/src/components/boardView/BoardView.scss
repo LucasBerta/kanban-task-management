@@ -13,6 +13,10 @@ $columnGap: 3rem;
   height: 100%;
   padding: $columnGap;
 
+  .task-container {
+    margin-top: Task.$taskGap;
+  }
+
   .board-view-content {
     @include flex(flex-start, flex-start);
     grid-area: board;

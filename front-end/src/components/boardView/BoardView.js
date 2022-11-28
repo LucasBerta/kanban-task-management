@@ -31,7 +31,12 @@ function BoardColumn({ column }) {
             {column?.tasks?.map((task, index) => (
               <Draggable key={task._id} draggableId={task._id} index={index}>
                 {provided => (
-                  <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                  <div
+                    className='task-container'
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
                     <Task task={task} />
                   </div>
                 )}
