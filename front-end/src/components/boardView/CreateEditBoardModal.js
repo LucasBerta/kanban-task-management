@@ -72,55 +72,53 @@ function CreateEditBoardModal({ dispatch, open, board, onClose = () => {}, class
 
   return (
     <>
-      {open && (
-        <Modal onClose={onClose} className={`create-edit-board-modal ${className}`.trim()}>
-          <h2>{!form._id ? 'Add New Board' : 'Edit Board'}</h2>
-          <form className='create-edit-board-modal-form' autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <Input
-              placeholder='e.g. Web Design'
-              label='Name'
-              id='name'
-              fullWidth
-              value={form.name}
-              onChange={e => setForm({ ...form, name: e.target.value })}
-              autoFocus
-            />
-            <div className='form-columns-container'>
-              {form.columns.map((column, index) => (
-                <Input
-                  key={index}
-                  label={index === 0 ? 'Columns' : ''}
-                  value={column.name || ''}
-                  fullWidth
-                  onChange={e => {
-                    setForm({
-                      ...form,
-                      columns: form.columns.map((column, i) => (index === i ? { ...column, name: e.target.value } : column)),
-                    });
-                  }}
-                  iconComponent={
-                    <Button
-                      className='form-columns-container-add-column'
-                      variant='icon'
-                      onClick={() => handleOnDeleteColumn(index)}
-                    >
-                      <ClearIcon />
-                    </Button>
-                  }
-                />
-              ))}
-              <div className='create-edit-board-modal-form-actions'>
-                <Button fullWidth theme='light' rounded onClick={handleAddNewColumn}>
-                  Add New Column
-                </Button>
-                <Button fullWidth variant='contained' theme='primary' type='submit' rounded onClick={handleOnSave}>
-                  {!form._id ? 'Create New Board' : 'Save Changes'}
-                </Button>
-              </div>
+      <Modal open={open} onClose={onClose} className={`create-edit-board-modal ${className}`.trim()}>
+        <h2>{!form._id ? 'Add New Board' : 'Edit Board'}</h2>
+        <form className='create-edit-board-modal-form' autoComplete='off' onSubmit={e => e.preventDefault()}>
+          <Input
+            placeholder='e.g. Web Design'
+            label='Name'
+            id='name'
+            fullWidth
+            value={form.name}
+            onChange={e => setForm({ ...form, name: e.target.value })}
+            autoFocus
+          />
+          <div className='form-columns-container'>
+            {form.columns.map((column, index) => (
+              <Input
+                key={index}
+                label={index === 0 ? 'Columns' : ''}
+                value={column.name || ''}
+                fullWidth
+                onChange={e => {
+                  setForm({
+                    ...form,
+                    columns: form.columns.map((column, i) => (index === i ? { ...column, name: e.target.value } : column)),
+                  });
+                }}
+                iconComponent={
+                  <Button
+                    className='form-columns-container-add-column'
+                    variant='icon'
+                    onClick={() => handleOnDeleteColumn(index)}
+                  >
+                    <ClearIcon />
+                  </Button>
+                }
+              />
+            ))}
+            <div className='create-edit-board-modal-form-actions'>
+              <Button fullWidth theme='light' rounded onClick={handleAddNewColumn}>
+                Add New Column
+              </Button>
+              <Button fullWidth variant='contained' theme='primary' type='submit' rounded onClick={handleOnSave}>
+                {!form._id ? 'Create New Board' : 'Save Changes'}
+              </Button>
             </div>
-          </form>
-        </Modal>
-      )}
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }
