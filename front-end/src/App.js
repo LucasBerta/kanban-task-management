@@ -24,8 +24,9 @@ function App({ dispatch, theme, boardState }) {
       dispatch(setupTheme());
 
       if (!boards?.length) {
-        await BoardApi.fetchAllAndUpdateState();
-        navigate('/');
+        await BoardApi.fetchAllAndUpdateState().then(data => {
+          if (!data.length) navigate('/');
+        });
         return;
       }
 
