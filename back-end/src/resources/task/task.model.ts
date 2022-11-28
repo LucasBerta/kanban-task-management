@@ -9,7 +9,7 @@ export class Task implements ITask {
   subtasks?: { title: String; isCompleted: Boolean }[] | undefined;
 
   constructor(
-    _id: ObjectId,
+    _id: any,
     title: String,
     description: String,
     status: String,

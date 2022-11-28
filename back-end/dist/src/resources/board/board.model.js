@@ -4,10 +4,11 @@ exports.Board = void 0;
 const mongoose_1 = require("mongoose");
 const task_model_1 = require("../task/task.model");
 class Board {
-    constructor(id, name, columns) {
+    constructor(id, name, columns, tasks) {
         this.id = id;
         this.name = name;
         this.columns = columns;
+        this.tasks = tasks;
     }
 }
 exports.Board = Board;

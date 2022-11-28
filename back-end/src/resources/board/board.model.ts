@@ -8,21 +8,22 @@ export class Board implements IBoard {
   columns?:
     | {
         name: String;
-        tasks?: Task[] | undefined;
       }[]
     | undefined;
+  tasks?: Task[] | undefined;
 
   constructor(
     id: Number | undefined,
     name: String,
     columns: Array<{
       name: String;
-      tasks?: Array<Task>;
-    }>
+    }>,
+    tasks?: Array<Task>
   ) {
     this.id = id;
     this.name = name;
     this.columns = columns;
+    this.tasks = tasks;
   }
 }
 
