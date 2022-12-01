@@ -37,6 +37,7 @@ function createTask(boardId, task) {
 exports.createTask = createTask;
 function updateTask(boardId, taskId, task) {
     return __awaiter(this, void 0, void 0, function* () {
+        validateTaskForm(boardId, task);
         const board = yield task_db_1.default.updateTask(boardId, taskId, task);
         if (!board)
             (0, common_1.throwNewError)(validators_1.errorNames.INTERNAL_ERROR);

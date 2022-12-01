@@ -15,6 +15,7 @@ import { showSnackbar } from '../../action/snackbarAction';
 import { refreshSelectedBoard } from '../../action/boardAction';
 import { snackbarSeverities } from '../../core/components/snackbar/Snackbar';
 import ActionConfirmationModal from './../../core/components/actionConfirmationModal/ActionConfirmationModal';
+import CreateEditTaskModal from './CreateEditTaskModal';
 
 // Helpers
 function getCompletedSubtasksCount(subtasks = []) {
@@ -26,9 +27,16 @@ const mapStateToPropsTaskModalHeader = ({ board }) => ({ boardState: board });
 
 const TaskModalheader = connect(mapStateToPropsTaskModalHeader)(({ dispatch, boardState, task, onClose = () => {} }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const options = [
-    { label: 'Edit Task', onSelect: () => {} },
+    {
+      label: 'Edit Task',
+      onSelect: () => {
+        setMenuOpen(false);
+        setEditModalOpen(true);
+      },
+    },
     {
       label: 'Delete Task',
       onSelect: () => {
@@ -61,6 +69,7 @@ const TaskModalheader = connect(mapStateToPropsTaskModalHeader)(({ dispatch, boa
           <MoreVertIcon />
         </Button>
         <Menu anchor='task-view-modal-options' open={menuOpen} options={options} onClose={() => setMenuOpen(false)} />
+        <CreateEditTaskModal open={editModalOpen} onClose={() => setEditModalOpen(false)} task={task} />
         <ActionConfirmationModal
           open={deleteModalOpen}
           title='Delete this task?'
@@ -76,19 +85,12 @@ const TaskModalheader = connect(mapStateToPropsTaskModalHeader)(({ dispatch, boa
 
 const mapStateToPropsSubtasks = ({ board }) => ({ boardState: board });
 
-const Subtasks = connect(mapStateToPropsSubtasks)(({ boardState, task = {} }) => {
-  const [subtasks, setSubtasks] = useState(task.subtasks);
-
+const Subtasks = connect(mapStateToPropsSubtasks)(({ dispatch, boardState, subtasks = [], onUpdateSubtasks = () => {} }) => {
   async function handleToggleCompletedTask(subtask, index) {
     const updatedSubtasks = subtasks.map((_subtask, _index) =>
       _subtask.title === subtask.title && _index === index ? { ..._subtask, isCompleted: !_subtask.isCompleted } : _subtask
     );
-    const _task = { ...task, subtasks: updatedSubtasks };
-    setSubtasks(updatedSubtasks);
-
-    TaskApi.updateTask(boardState.selectedBoard, _task).then(null, () => {
-      setSubtasks(task.subtasks);
-    });
+    onUpdateSubtasks(updatedSubtasks);
   }
 
   return (
@@ -116,23 +118,14 @@ const Subtasks = connect(mapStateToPropsSubtasks)(({ boardState, task = {} }) =>
 
 const mapStateToPropsTaskModalStatus = ({ board }) => ({ boardState: board });
 
-const TaskModalStatus = connect(mapStateToPropsTaskModalStatus)(({ boardState, task }) => {
-  const [_task, _setTask] = useState(task);
-
-  function handleOnChangeStatus(columnName) {
-    const newTask = { ...task, status: columnName };
-    TaskApi.updateTask(boardState.selectedBoard, newTask).then(response => {
-      _setTask(response.data);
-    });
-  }
-
+const TaskModalStatus = connect(mapStateToPropsTaskModalStatus)(({ boardState, status, onChangeStatus = () => {} }) => {
   return (
     <div className='task-modal-status-container'>
       <h5>Current Status</h5>
       <FormControl className='task-modal-status-form-control' fullWidth>
-        <Select value={_task.status} className='task-modal-status-select' fullWidth>
+        <Select value={status} className='task-modal-status-select' fullWidth>
           {boardState.selectedBoard.columns.map(column => (
-            <MenuItem key={column.name} value={column.name} onClick={() => handleOnChangeStatus(column.name)}>
+            <MenuItem key={column.name} value={column.name} onClick={() => onChangeStatus(column.name)}>
               {column.name}
             </MenuItem>
           ))}
@@ -142,20 +135,38 @@ const TaskModalStatus = connect(mapStateToPropsTaskModalStatus)(({ boardState, t
   );
 });
 
-function TaskViewModal({ task, open, onClose }) {
+const mapStateToPropsTaskViewModal = ({ board }) => ({ boardState: board });
+
+const TaskViewModal = connect(mapStateToPropsTaskViewModal)(({ boardState, task, open, onClose }) => {
+  const [_task, _setTask] = useState(task);
+
+  function handleOnUpdateSubtasks(subtasks) {
+    const updatedTask = { ..._task, subtasks: subtasks };
+    _setTask(updatedTask);
+    TaskApi.updateTask(boardState.selectedBoard, updatedTask).then(null, () => {
+      _setTask(updatedTask);
+    });
+  }
+
+  function handleOnUpdateStatus(status) {
+    const updatedTask = { ..._task, status };
+    _setTask(updatedTask);
+    TaskApi.updateTask(boardState.selectedBoard, updatedTask);
+  }
+
   return (
     <Modal open={open} onClose={onClose}>
       <TaskModalheader task={task} onClose={onClose} />
       <div className='task-modal-body'>
         {task.description && <p className='task-modal-description body-l'>{task.description}</p>}
-        <Subtasks task={task} />
-        <TaskModalStatus task={task} />
+        <Subtasks subtasks={_task.subtasks} onUpdateSubtasks={handleOnUpdateSubtasks} />
+        <TaskModalStatus status={_task.status} onChangeStatus={handleOnUpdateStatus} />
       </div>
     </Modal>
   );
-}
+});
 
-function Task({ dispatch, task, draggableIndex }) {
+function Task({ dispatch, task }) {
   const [taskModalOpen, setTaskModalOpen] = useState(false);
 
   async function handleOnCloseModal() {

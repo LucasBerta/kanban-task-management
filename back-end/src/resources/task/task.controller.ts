@@ -22,6 +22,8 @@ export async function createTask(boardId: string, task: ITask) {
 }
 
 export async function updateTask(boardId: string, taskId: string, task: ITask) {
+  validateTaskForm(boardId, task);
+
   const board = await TaskDB.updateTask(boardId, taskId, task);
   if (!board) throwNewError(errorNames.INTERNAL_ERROR);
 

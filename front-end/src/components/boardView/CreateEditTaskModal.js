@@ -12,9 +12,12 @@ import { FormControl, MenuItem, Select } from '@mui/material';
 import TaskApi from './../../core/api/task.api';
 import { refreshBoard } from './../../action/boardAction';
 
-function CreateEditTaskModal({ dispatch, boardState, task, open, className = '', onClose = () => {} }) {
-  const initialStatus = boardState.selectedBoard?.columns[0]?.name;
-  const initialFormState = useMemo(() => ({ title: '', description: '', status: '', subtasks: [] }), []);
+function CreateEditTaskModal({ dispatch, boardState, task, defaultStatus, open, className = '', onClose = () => {} }) {
+  const initialStatus = !!defaultStatus ? defaultStatus : boardState.selectedBoard?.columns[0]?.name;
+  const initialFormState = useMemo(
+    () => ({ title: '', description: '', status: initialStatus, subtasks: [] }),
+    [initialStatus]
+  );
   const [form, setForm] = useState(initialFormState);
 
   useEffect(() => {
@@ -40,6 +43,7 @@ function CreateEditTaskModal({ dispatch, boardState, task, open, className = '',
     if (isNew()) {
       createTask();
     } else {
+      updateTask();
     }
   }
 
@@ -48,6 +52,18 @@ function CreateEditTaskModal({ dispatch, boardState, task, open, className = '',
       onClose();
       setForm(initialFormState);
       dispatch(refreshBoard({ ...boardState.selectedBoard, tasks: response.data }));
+    });
+  }
+
+  function updateTask() {
+    TaskApi.updateTask(boardState.selectedBoard, form).then(response => {
+      onClose();
+      dispatch(
+        refreshBoard({
+          ...boardState.selectedBoard,
+          tasks: boardState.selectedBoard.tasks.map(task => (task._id === response.data._id ? response.data : task)),
+        })
+      );
     });
   }
 

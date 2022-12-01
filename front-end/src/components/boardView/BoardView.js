@@ -9,6 +9,7 @@ import Button from '../../core/components/button/Button';
 import CreateEditBoardModal from './CreateEditBoardModal';
 import BoardApi from './../../core/api/board.api';
 import { refreshBoard } from './../../action/boardAction';
+import CreateEditTaskModal from './CreateEditTaskModal';
 
 // Components
 export function EmptyBoardView() {
@@ -22,34 +23,39 @@ export function EmptyBoardView() {
 }
 
 function BoardColumn({ column }) {
+  const [newTaskModalOpen, setNewTaskModalOpen] = useState(false);
+
   return (
-    <Droppable droppableId={column.name}>
-      {provided => (
-        <div {...provided.droppableProps} ref={provided.innerRef}>
-          <div className='board-column'>
-            <h4>{`${column.name} (${column?.tasks?.length || 0})`}</h4>
-            {column?.tasks?.map((task, index) => (
-              <Draggable key={task._id} draggableId={task._id} index={index}>
-                {provided => (
-                  <div
-                    className='task-container'
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <Task task={task} />
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-            <Button className='column-add-new-task' theme='secondary'>
-              + Add New Task
-            </Button>
+    <>
+      <Droppable droppableId={column.name}>
+        {provided => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            <div className='board-column'>
+              <h4>{`${column.name} (${column?.tasks?.length || 0})`}</h4>
+              {column?.tasks?.map((task, index) => (
+                <Draggable key={task._id} draggableId={task._id} index={index}>
+                  {provided => (
+                    <div
+                      className='task-container'
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <Task task={task} />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+              <Button className='column-add-new-task' theme='secondary' onClick={() => setNewTaskModalOpen(true)}>
+                + Add New Task
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
-    </Droppable>
+        )}
+      </Droppable>
+      <CreateEditTaskModal open={newTaskModalOpen} onClose={() => setNewTaskModalOpen(false)} defaultStatus={column.name} />
+    </>
   );
 }
 
