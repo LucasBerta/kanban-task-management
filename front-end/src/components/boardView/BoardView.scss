@@ -53,6 +53,7 @@ $columnGap: 3rem;
 
   .column-add-new-task {
     @extend .task;
+    margin-top: Task.$taskGap;
     color: $mediumGrey;
     background-color: initial;
     box-shadow: none;
