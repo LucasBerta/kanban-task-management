@@ -16,6 +16,7 @@ function CreateEditBoardModal({ dispatch, open, board, onClose = () => {}, class
   const navigate = useNavigate();
   const initialFormState = { _id: null, name: '', columns: [] };
   const [form, setForm] = useState(initialFormState);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (!!board) {
@@ -70,6 +71,10 @@ function CreateEditBoardModal({ dispatch, open, board, onClose = () => {}, class
     });
   }
 
+  function isThereAnyError() {
+    return !!Object.keys(errors).find(key => !!errors[key]);
+  }
+
   return (
     <>
       <Modal open={open} onClose={onClose} className={`create-edit-board-modal ${className}`.trim()}>
@@ -81,8 +86,12 @@ function CreateEditBoardModal({ dispatch, open, board, onClose = () => {}, class
             id='name'
             fullWidth
             value={form.name}
-            onChange={e => setForm({ ...form, name: e.target.value })}
+            onChange={(e, isThereAnyError) => {
+              setForm({ ...form, name: e.target.value });
+              setErrors({ ...errors, title: isThereAnyError });
+            }}
             autoFocus
+            required
           />
           <div className='form-columns-container'>
             {form.columns.map((column, index) => (
@@ -91,17 +100,25 @@ function CreateEditBoardModal({ dispatch, open, board, onClose = () => {}, class
                 label={index === 0 ? 'Columns' : ''}
                 value={column.name || ''}
                 fullWidth
-                onChange={e => {
+                autoFocus
+                required
+                onChange={(e, isThereAnyError) => {
                   setForm({
                     ...form,
                     columns: form.columns.map((column, i) => (index === i ? { ...column, name: e.target.value } : column)),
                   });
+                  setErrors({ ...errors, [`column${index}`]: isThereAnyError });
                 }}
                 iconComponent={
                   <Button
                     className='form-columns-container-delete-column-icon-button'
                     variant='icon'
-                    onClick={() => handleOnDeleteColumn(index)}
+                    onClick={() => {
+                      handleOnDeleteColumn(index);
+                      let _errors = { ...errors };
+                      delete _errors[`column${index}`];
+                      setErrors(_errors);
+                    }}
                   >
                     <ClearIcon />
                   </Button>
@@ -112,7 +129,15 @@ function CreateEditBoardModal({ dispatch, open, board, onClose = () => {}, class
               <Button fullWidth theme='light' rounded onClick={handleAddNewColumn}>
                 Add New Column
               </Button>
-              <Button fullWidth variant='contained' theme='primary' type='submit' rounded onClick={handleOnSave}>
+              <Button
+                fullWidth
+                variant='contained'
+                theme='primary'
+                type='submit'
+                rounded
+                disabled={isThereAnyError()}
+                onClick={handleOnSave}
+              >
                 {!form._id ? 'Create New Board' : 'Save Changes'}
               </Button>
             </div>

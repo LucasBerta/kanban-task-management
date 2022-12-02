@@ -19,6 +19,7 @@ function CreateEditTaskModal({ dispatch, boardState, task, defaultStatus, open, 
     [initialStatus]
   );
   const [form, setForm] = useState(initialFormState);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (!!task) setForm(task);
@@ -71,6 +72,10 @@ function CreateEditTaskModal({ dispatch, boardState, task, defaultStatus, open, 
     return !form._id;
   }
 
+  function isThereAnyError() {
+    return !!Object.keys(errors).find(key => !!errors[key]);
+  }
+
   return (
     <Modal open={open} onClose={onClose} className={`create-edit-task-modal ${className}`}>
       <h2>{isNew() ? 'Add New Task' : 'Edit Task'}</h2>
@@ -81,8 +86,12 @@ function CreateEditTaskModal({ dispatch, boardState, task, defaultStatus, open, 
           id='title'
           fullWidth
           value={form.title}
-          onChange={e => setForm({ ...form, title: e.target.value })}
+          onChange={(e, isThereError) => {
+            setForm({ ...form, title: e.target.value });
+            setErrors({ ...errors, title: isThereError });
+          }}
           autoFocus
+          required
         />
         <Textarea
           placeholder='e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.'
@@ -100,18 +109,29 @@ function CreateEditTaskModal({ dispatch, boardState, task, defaultStatus, open, 
               label={index === 0 ? 'Subtasks' : ''}
               fullWidth
               value={subtask.title}
-              onChange={e =>
+              onChange={(e, isThereError) => {
                 setForm({
                   ...form,
                   subtasks: form.subtasks.map((_subtask, i) => ({
                     ..._subtask,
                     title: i === index ? e.target.value : _subtask.title,
                   })),
-                })
-              }
+                });
+                setErrors({ ...errors, [`subtask${index}`]: isThereError });
+              }}
               autoFocus
+              required
               iconComponent={
-                <Button className='delete-subtask-icon-button' variant='icon' onClick={() => handleOnDeleteSubtask(index)}>
+                <Button
+                  className='delete-subtask-icon-button'
+                  variant='icon'
+                  onClick={() => {
+                    handleOnDeleteSubtask(index);
+                    let _errors = { ...errors };
+                    delete _errors[`subtask${index}`];
+                    setErrors(_errors);
+                  }}
+                >
                   <ClearIcon />
                 </Button>
               }
@@ -135,7 +155,15 @@ function CreateEditTaskModal({ dispatch, boardState, task, defaultStatus, open, 
           </FormControl>
         </div>
 
-        <Button fullWidth className='save-subtask' theme='primary' variant='contained' rounded onClick={handleOnSaveTask}>
+        <Button
+          fullWidth
+          className='save-subtask'
+          theme='primary'
+          variant='contained'
+          rounded
+          disabled={isThereAnyError()}
+          onClick={handleOnSaveTask}
+        >
           {isNew() ? 'Add Task' : 'Save Task'}
         </Button>
       </form>
