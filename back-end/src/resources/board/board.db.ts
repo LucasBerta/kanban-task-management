@@ -21,6 +21,30 @@ export default class BoardDB {
   }
 
   public static async updateBoard(id: String, board: IBoard) {
-    return await BoardModel.findOneAndUpdate({ _id: `${id}` }, board, { new: true });
+    const savedBoard = await BoardModel.findOne({ _id: `${id}` });
+    if (areEqual(savedBoard?.columns, board.columns)) {
+      return await BoardModel?.findByIdAndUpdate(id, board, { new: true });
+    }
+    const newBoard = { ...board };
+    newBoard.tasks = newBoard.tasks?.map(task => ({
+      ...task,
+      status: getNewStatus(savedBoard?.columns, board.columns, task) || task.status,
+    }));
+    return await BoardModel?.findByIdAndUpdate(id, newBoard, { new: true });
   }
+}
+
+//Validators and Hanlders
+function getNewStatus(
+  savedBoardColumns: Array<{ name: String }> | undefined,
+  newBoardColumns: Array<{ name: String }> | undefined,
+  task: { status: String }
+) {
+  const statusIndex = savedBoardColumns?.findIndex(column => column.name === task.status);
+  return newBoardColumns?.find((column, index) => index === statusIndex)?.name;
+}
+
+function areEqual(oldArr: Array<{ name: String }> | undefined, newArr: Array<{ name: String }> | undefined) {
+  if (oldArr?.length !== newArr?.length) return false;
+  return oldArr?.every(item => newArr?.includes(item));
 }
