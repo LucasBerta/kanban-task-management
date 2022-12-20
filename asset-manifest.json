@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.2fb350c1.css",
-    "main.js": "/static/js/main.00914dd9.js",
-    "static/js/787.5afd2fb9.chunk.js": "/static/js/787.5afd2fb9.chunk.js",
-    "static/media/PlusJakartaSans-VariableFont_wght.ttf": "/static/media/PlusJakartaSans-VariableFont_wght.ae47e4d01757abf8ad63.ttf",
-    "static/media/logo-dark.svg": "/static/media/logo-dark.ac4c8e487da046e58b1d.svg",
-    "static/media/logo-light.svg": "/static/media/logo-light.1e20d87d61c965503a53.svg",
-    "index.html": "/index.html",
-    "static/media/logo-mobile.svg": "/static/media/logo-mobile.e60c2fbc3dcefa4256e0.svg",
-    "main.2fb350c1.css.map": "/static/css/main.2fb350c1.css.map",
-    "main.00914dd9.js.map": "/static/js/main.00914dd9.js.map",
-    "787.5afd2fb9.chunk.js.map": "/static/js/787.5afd2fb9.chunk.js.map"
+    "main.css": "/kanban-task-management/static/css/main.6ef5f05b.css",
+    "main.js": "/kanban-task-management/static/js/main.dddc13cb.js",
+    "static/js/787.5afd2fb9.chunk.js": "/kanban-task-management/static/js/787.5afd2fb9.chunk.js",
+    "static/media/PlusJakartaSans-VariableFont_wght.ttf": "/kanban-task-management/static/media/PlusJakartaSans-VariableFont_wght.ae47e4d01757abf8ad63.ttf",
+    "static/media/logo-dark.svg": "/kanban-task-management/static/media/logo-dark.ac4c8e487da046e58b1d.svg",
+    "static/media/logo-light.svg": "/kanban-task-management/static/media/logo-light.1e20d87d61c965503a53.svg",
+    "index.html": "/kanban-task-management/index.html",
+    "static/media/logo-mobile.svg": "/kanban-task-management/static/media/logo-mobile.e60c2fbc3dcefa4256e0.svg",
+    "main.6ef5f05b.css.map": "/kanban-task-management/static/css/main.6ef5f05b.css.map",
+    "main.dddc13cb.js.map": "/kanban-task-management/static/js/main.dddc13cb.js.map",
+    "787.5afd2fb9.chunk.js.map": "/kanban-task-management/static/js/787.5afd2fb9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2fb350c1.css",
-    "static/js/main.00914dd9.js"
+    "static/css/main.6ef5f05b.css",
+    "static/js/main.dddc13cb.js"
   ]
 }
