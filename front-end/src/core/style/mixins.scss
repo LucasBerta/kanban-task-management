@@ -25,3 +25,21 @@
 @mixin shadowMedium {
   box-shadow: 0rem 0.3rem 0.7rem -0.5rem #000;
 }
+
+@mixin screenMd {
+  @media screen and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin screenSm {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin screenXs {
+  @media screen and (max-width: 375px) {
+    @content;
+  }
+}

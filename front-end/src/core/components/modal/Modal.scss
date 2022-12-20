@@ -33,6 +33,14 @@
     @include shadowMedium;
     @include animation(showModal);
     animation-fill-mode: forwards;
+
+    @include screenSm {
+      width: 80%;
+    }
+
+    @include screenXs {
+      width: 90%;
+    }
   }
 }
 

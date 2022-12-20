@@ -2,11 +2,11 @@
 @import "../../core/style/mixins.scss";
 @import "../../core/style/variables.scss";
 
-.topbar-action-buttons {
-  @include flex;
-}
-
 .topbar {
+  $screenSmLogoWidth: 3rem;
+  $screenSmLogoPaddingHor: Sidenav.$horizontalPadding;
+  $screenSmLogoPaddingVer: Sidenav.$verticalPadding;
+
   grid-area: topbar;
   background-color: var(--background-color-secondary);
   @include flex(flex-start);
@@ -19,33 +19,82 @@
   }
 
   .logo-container {
-    width: Sidenav.$sidenavWidth;
+    @include flex(flex-start, center);
+    width: var(--sidenav-width);
     height: 100%;
-    padding: Sidenav.$verticalPadding Sidenav.$horizontalPadding;
+    padding: $screenSmLogoPaddingVer $screenSmLogoPaddingHor;
     border-right: 1px solid var(--lines-color);
     border-bottom: 1px solid transparent;
     @include transition;
+
+    @include screenSm {
+      max-width: calc(3rem + $screenSmLogoPaddingHor * 2);
+      border-right: none;
+    }
+
+    .logo {
+      max-width: 15rem;
+
+      @include screenSm {
+        max-width: $screenSmLogoWidth;
+      }
+    }
   }
 
   .topbar-content {
     @include flex(space-between);
-    flex: 1;
+    width: calc(100% - var(--sidenav-width));
     height: 100%;
-    padding: Sidenav.$verticalPadding Sidenav.$horizontalPadding;
+    padding: $screenSmLogoPaddingVer $screenSmLogoPaddingHor;
     border-bottom: 1px solid var(--lines-color);
     @include transition;
 
-    .topbar-selected-board {
-      color: var(--background-color-secondary-opposite);
-      @include transition;
+    @include screenSm {
+      flex: 1;
+      max-width: calc(100vw - $screenSmLogoWidth - $screenSmLogoPaddingHor * 2);
+    }
+
+    .topbar-selected-board-container {
+      @include flex(flex-start);
+      overflow: hidden;
+
+      .topbar-selected-board {
+        min-width: 0;
+        padding-right: 1rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: var(--background-color-secondary-opposite);
+        cursor: pointer;
+        @include transition;
+      }
+
+      .topbar-arrow-down-icon {
+        font-size: $fontHeadingXl;
+        color: $primary;
+        cursor: pointer;
+      }
+    }
+
+    .topbar-action-buttons {
+      @include flex(flex-end);
     }
 
     .topbar-add-new-task {
       margin-left: 2rem;
+
+      @include screenSm {
+        font-size: 3rem;
+      }
     }
 
     .topbar-board-actions {
       margin-left: 1.5rem;
+      margin-right: -1.5rem;
+
+      @include screenSm {
+        margin-left: 0.5rem;
+      }
 
       svg {
         font-size: $fontHeadingXl;

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -82,7 +83,7 @@ function Sidenav({ dispatch, themeState, sidebarState, boardState }) {
           dispatch(switchSidebar());
         }}
       >
-        <VisibilityOffIcon className='hide-sidebar-icon' />
+        <VisibilityIcon />
       </div>
     </>
   );

@@ -1,23 +1,38 @@
-import { useState } from 'react';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import Logo from '../logo/Logo';
-import './Topbar.scss';
-import Button from './../../core/components/button/Button';
+import { switchSidebar } from '../../action/sidebarAction';
 import Menu from '../../core/components/menu/Menu';
-import BoardApi from './../../core/api/board.api';
-import CreateEditBoardModal from './../boardView/CreateEditBoardModal';
-import ActionConfirmationModal from './../../core/components/actionConfirmationModal/ActionConfirmationModal';
 import CreateEditTaskModal from '../boardView/CreateEditTaskModal';
+import Logo from '../logo/Logo';
+import BoardApi from './../../core/api/board.api';
+import ActionConfirmationModal from './../../core/components/actionConfirmationModal/ActionConfirmationModal';
+import Button from './../../core/components/button/Button';
+import CreateEditBoardModal from './../boardView/CreateEditBoardModal';
+import './Topbar.scss';
 
-function Topbar({ sidebarState, boardState }) {
+function Topbar({ dispatch, sidebarState, boardState }) {
   const navigate = useNavigate();
   const [boardActionsOpen, setBoardActionsOpen] = useState(false);
   const [editBoardModalOpen, setEditBoardModalOpen] = useState(false);
   const [deleteBoardModalOpen, setDeleteBoardModalOpen] = useState(false);
   const [newTaskModalOpen, setNewTaskModalOpen] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleScreenResize() {
+      if ((screenWidth >= 768 && window.innerWidth < 768) || (screenWidth < 768 && window.innerWidth >= 768)) {
+        setScreenWidth(window.innerWidth);
+      }
+    }
+
+    window.addEventListener('resize', handleScreenResize);
+
+    return () => window.removeEventListener('resize', handleScreenResize);
+  }, [screenWidth]);
 
   const boardActionsOptions = [
     {
@@ -44,13 +59,22 @@ function Topbar({ sidebarState, boardState }) {
     });
   }
 
+  function switchSidenav() {
+    dispatch(switchSidebar());
+  }
+
   return (
     <div className={`topbar${sidebarState === 'closed' ? ' sidebar-closed' : ''}`}>
       <div className='logo-container'>
         <Logo />
       </div>
       <div className='topbar-content'>
-        <h1 className='topbar-selected-board'>{boardState?.selectedBoard?.name}</h1>
+        <div className='topbar-selected-board-container'>
+          <h1 className='topbar-selected-board' onClick={switchSidenav}>
+            {boardState?.selectedBoard?.name}
+          </h1>
+          <KeyboardArrowDownIcon className='topbar-arrow-down-icon' onClick={switchSidenav} />
+        </div>
         <div className='topbar-action-buttons'>
           <Button
             className='topbar-add-new-task'
@@ -59,7 +83,7 @@ function Topbar({ sidebarState, boardState }) {
             disabled={boardState?.selectedBoard?.columns?.length === 0}
             onClick={() => setNewTaskModalOpen(true)}
           >
-            + Add New Task
+            {`+${screenWidth > 767 ? 'Add New Task' : ''}`}
           </Button>
           <Button
             id='topbar-board-actions'

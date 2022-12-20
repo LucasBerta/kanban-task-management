@@ -6,6 +6,11 @@
   > div {
     min-width: 28rem;
     max-width: 35rem;
+
+    @include screenXs {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 
   div {

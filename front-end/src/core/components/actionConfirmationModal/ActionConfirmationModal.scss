@@ -5,6 +5,15 @@
 .action-confirmation-modal {
   .modal-container {
     width: 48rem;
+
+    @include screenSm {
+      max-width: 80%;
+    }
+
+    @include screenXs {
+      width: 90%;
+      max-width: 90%;
+    }
   }
 
   &-title {

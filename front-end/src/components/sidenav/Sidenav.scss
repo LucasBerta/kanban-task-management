@@ -4,8 +4,21 @@
 @import "../../core/style/typography.scss";
 
 $verticalPadding: 2rem;
-$horizontalPadding: 3.2rem;
-$sidenavWidth: 25vw;
+$horizontalPadding: 2rem;
+$sidenavWidth: 35rem;
+$sidenavWidthMd: 28rem;
+
+:root {
+  --sidenav-width: #{$sidenavWidth};
+
+  @include screenMd {
+    --sidenav-width: #{$sidenavWidthMd};
+  }
+
+  @include screenXs {
+    --sidenav-width: 100vw;
+  }
+}
 
 .sidenav {
   $listItemBorderRadius: 0 50px 50px 0;
@@ -19,7 +32,7 @@ $sidenavWidth: 25vw;
   @include transition;
 
   &.open {
-    width: $sidenavWidth;
+    width: var(--sidenav-width);
     border-right: 1px solid var(--lines-color);
     @include animation(openSidebar, 0.3s, ease-out);
   }
@@ -27,11 +40,11 @@ $sidenavWidth: 25vw;
   @keyframes openSidebar {
     0% {
       width: 0;
-      transform: translateX(calc(#{$sidenavWidth * -1}));
+      transform: translateX(calc(var(--sidenav-width) * -1));
     }
     50% {
-      width: $sidenavWidth;
-      transform: translateX(calc(#{$sidenavWidth * -1}));
+      width: var(--sidenav-width);
+      transform: translateX(calc(var(--sidenav-width) * -1));
     }
     100% {
       transform: translateX(0);
@@ -52,12 +65,12 @@ $sidenavWidth: 25vw;
 
   @keyframes closeSidebar {
     0% {
-      width: $sidenavWidth;
+      width: var(--sidenav-width);
       transform: translateX(0);
     }
     50% {
-      width: $sidenavWidth;
-      transform: translateX(calc(#{$sidenavWidth * -1}));
+      width: var(--sidenav-width);
+      transform: translateX(calc(var(--sidenav-width) * -1));
     }
     100% {
       width: 0;
@@ -156,7 +169,8 @@ $sidenavWidth: 25vw;
           cursor: pointer;
           @include transition;
 
-          .hide-sidebar-icon {
+          .hide-sidebar-icon,
+          .show-sidebar-icon {
             @include iconM;
           }
 
