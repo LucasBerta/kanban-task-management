@@ -2,6 +2,7 @@
   "name": "kanban-task-management-web-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://lucasberta.github.io/kanban-task-management/",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
