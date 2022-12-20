@@ -28,8 +28,9 @@ export default class BoardDB {
     const newBoard = { ...board };
     newBoard.tasks = newBoard.tasks?.map(task => ({
       ...task,
-      status: getNewStatus(savedBoard?.columns, board.columns, task) || task.status,
+      status: getNewStatus(savedBoard?.columns, board.columns, task) || '',
     }));
+    newBoard.tasks = newBoard.tasks?.filter(task => task.status !== '');
     return await BoardModel?.findByIdAndUpdate(id, newBoard, { new: true });
   }
 }
