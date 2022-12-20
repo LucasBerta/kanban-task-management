@@ -11,7 +11,7 @@ export const apiEndpoint = {
 };
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: 'https://kanban-task-management-back-end.onrender.com',
 });
 
 api.defaults.headers.post['Content-Type'] = 'application/json';
